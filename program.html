@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="sk" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program dňa - Medvedí bratia 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            50: '#f6f7f4', 100: '#e3e7de', 200: '#c7d0be', 300: '#a3b296',
+                            400: '#7f9471', 500: '#627856', 600: '#4c5f43', 700: '#3d4b37',
+                            800: '#1e3a1e', 900: '#152714',
+                        },
+                        earth: {
+                            50: '#faf6f1', 100: '#f0e6d8', 200: '#e1ccb0', 300: '#d1ad82',
+                            400: '#c4925d', 500: '#b87d4a', 600: '#a5663e', 700: '#894f35',
+                            800: '#704231', 900: '#5c382a',
+                        },
+                        cream: {
+                            50: '#fdfcf9', 100: '#f9f6ef', 200: '#f3ecdd', 300: '#e9ddc4', 400: '#dcc9a3',
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .hero-mini {
+            background-image: linear-gradient(to bottom, rgba(30, 58, 30, 0.85), rgba(30, 58, 30, 0.95)), url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .info-placeholder {
+            @apply flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-1.5 rounded-lg border border-forest-100;
+        }
+    </style>
+</head>
+
+<body class="bg-cream-50 text-forest-900 font-sans antialiased">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <a href="index.html" class="flex items-center gap-2 group z-50">
+                    <span class="text-2xl md:text-3xl">🐻</span>
+                    <span
+                        class="text-lg sm:text-xl md:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors">
+                        Medvedí bratia - PT2026
+                    </span>
+                </a>
+    
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="menu.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Jedálny
+                        lístok</a>
+                    <a href="program.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Program
+                        tábora</a>
+                    <a href="index.html#galeria"
+                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
+                    <a href="index.html#iHra"
+                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová
+                        hra</a>
+                    <a href="index.html#kontakt"
+                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
+                    <a href="index.html#prihlaska"
+                        class="bg-earth-500 hover:bg-earth-600 text-white px-5 py-2.5 rounded-full font-semibold transition-all hover:shadow-lg hover:scale-105">
+                        Prihlásiť sa
+                    </a>
+                </div>
+    
+                <button id="mobile-menu-btn"
+                    class="md:hidden text-cream-100 p-2 hover:bg-forest-700 rounded-lg transition-colors z-50"
+                    aria-label="Menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-forest-800 border-t border-forest-700 max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <div class="px-4 py-4 space-y-2">
+                <a href="menu.html"
+                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Jedálny
+                    lístok</a>
+                <a href="program.html"
+                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Program
+                    tábora</a>
+                <a href="index.html#galeria"
+                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Galéria</a>
+                <a href="index.html#iHra"
+                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Internetová
+                    hra</a>
+                <a href="index.html#kontakt"
+                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Kontakt</a>
+                <a href="index.html#prihlaska"
+                    class="block w-full bg-earth-500 hover:bg-earth-600 text-white px-5 py-4 rounded-full font-semibold text-center transition-all mt-6 shadow-md">
+                    Prihlásiť sa
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-mini pt-32 pb-16 md:pt-40 md:pb-24 text-center">
+        <div class="max-w-5xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 uppercase tracking-tight">Program <span
+                    class="text-earth-300">Tábora</span></h1>
+            <p class="text-cream-200 text-lg max-w-xl mx-auto italic">Informácie budú priebežne dopĺňané našimi vedúcimi
+                priamo v teréne.</p>
+        </div>
+    </header>
+
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4 space-y-6">
+
+            <script>
+                const dni = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"];
+                dni.forEach((den, i) => {
+                    document.write(`
+                        <div class="bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden mb-6">
+                            <div class="${i === 6 ? 'bg-earth-600' : 'bg-forest-800'} px-8 py-4 flex justify-between items-center text-white">
+                                <h3 class="text-lg font-bold uppercase tracking-widest">${i + 1}. DEŇ - ${den}</h3>
+                                <span class="opacity-50 text-sm">PT2026</span>
+                            </div>
+                            <div class="p-8 grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">📍 Miesto stretnutia</h4>
+                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
+                                        <span>⏳</span> Bude dostupné počas tábora
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">🏡 Miesto ukončenia</h4>
+                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
+                                        <span>⏳</span> Bude dostupné počas tábora
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">👕 Dôležité oblečenie</h4>
+                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
+                                        <span>⏳</span> Bude dostupné počas tábora
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">⛪ Svätá omša</h4>
+                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
+                                        <span>⏳</span> Bude dostupné počas tábora
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
+
+        </div>
+    </section>
+
+    <footer class="bg-forest-900 text-forest-200 py-12 border-t border-forest-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-forest-500 uppercase tracking-widest">
+                Aktualizované: Apríl 2026 • Medvedí Bratia
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
