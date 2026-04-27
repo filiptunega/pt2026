@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program dňa - Medvedí bratia 2026</title>
+    <title>Prihláška - Medvedí bratia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -12,39 +12,48 @@
                 extend: {
                     colors: {
                         forest: {
-                            50: '#f6f7f4', 100: '#e3e7de', 200: '#c7d0be', 300: '#a3b296',
-                            400: '#7f9471', 500: '#627856', 600: '#4c5f43', 700: '#3d4b37',
-                            800: '#1e3a1e', 900: '#152714',
+                            50: '#f6f7f4',
+                            100: '#e3e7de',
+                            200: '#c7d0be',
+                            300: '#a3b296',
+                            400: '#7f9471',
+                            500: '#627856',
+                            600: '#4c5f43',
+                            700: '#3d4b37',
+                            800: '#1e3a1e',
+                            900: '#152714',
                         },
                         earth: {
-                            50: '#faf6f1', 100: '#f0e6d8', 200: '#e1ccb0', 300: '#d1ad82',
-                            400: '#c4925d', 500: '#b87d4a', 600: '#a5663e', 700: '#894f35',
-                            800: '#704231', 900: '#5c382a',
+                            50: '#faf6f1',
+                            100: '#f0e6d8',
+                            200: '#e1ccb0',
+                            300: '#d1ad82',
+                            400: '#c4925d',
+                            500: '#b87d4a',
+                            600: '#a5663e',
+                            700: '#894f35',
+                            800: '#704231',
+                            900: '#5c382a',
                         },
                         cream: {
-                            50: '#fdfcf9', 100: '#f9f6ef', 200: '#f3ecdd', 300: '#e9ddc4', 400: '#dcc9a3',
+                            50: '#fdfcf9',
+                            100: '#f9f6ef',
+                            200: '#f3ecdd',
+                            300: '#e9ddc4',
+                            400: '#dcc9a3',
                         }
                     },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        .hero-mini {
-            background-image: linear-gradient(to bottom, rgba(30, 58, 30, 0.85), rgba(30, 58, 30, 0.95)), url('images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .info-placeholder {
-            @apply flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-1.5 rounded-lg border border-forest-100;
-        }
-    </style>
 </head>
 
-<body class="bg-cream-50 text-forest-900 font-sans antialiased">
+<body class="bg-cream-100 font-sans text-forest-900">
+
     <nav class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 md:h-20">
@@ -61,14 +70,11 @@
                         lístok</a>
                     <a href="program.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Program
                         tábora</a>
-                    <a href="index.html#galeria"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
-                    <a href="index.html#iHra"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová
+                    <a href="#galeria" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
+                    <a href="#iHra" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová
                         hra</a>
-                    <a href="index.html#kontakt"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
-                    <a href="index.html#prihlaska"
+                    <a href="#kontakt" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
+                    <a href="#prihlaska"
                         class="bg-earth-500 hover:bg-earth-600 text-white px-5 py-2.5 rounded-full font-semibold transition-all hover:shadow-lg hover:scale-105">
                         Prihlásiť sa
                     </a>
@@ -94,14 +100,14 @@
                 <a href="program.html"
                     class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Program
                     tábora</a>
-                <a href="index.html#galeria"
+                <a href="#galeria"
                     class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Galéria</a>
-                <a href="index.html#iHra"
+                <a href="#iHra"
                     class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Internetová
                     hra</a>
-                <a href="index.html#kontakt"
+                <a href="#kontakt"
                     class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Kontakt</a>
-                <a href="index.html#prihlaska"
+                <a href="#prihlaska"
                     class="block w-full bg-earth-500 hover:bg-earth-600 text-white px-5 py-4 rounded-full font-semibold text-center transition-all mt-6 shadow-md">
                     Prihlásiť sa
                 </a>
@@ -109,60 +115,35 @@
         </div>
     </nav>
 
-    <header class="hero-mini pt-32 pb-16 md:pt-40 md:pb-24 text-center">
-        <div class="max-w-5xl mx-auto px-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 uppercase tracking-tight">Program <span
-                    class="text-earth-300">Tábora</span></h1>
-            <p class="text-cream-200 text-lg max-w-xl mx-auto italic">Informácie budú priebežne dopĺňané našimi vedúcimi
-                priamo v teréne.</p>
+    <main class="pt-32 pb-20">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-forest-800 mb-4">Prihláška na tábor</h1>
+                <div class="w-20 h-1.5 bg-earth-400 mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-forest-600">
+                    Vyplňte prosím nasledujúci formulár. Po odoslaní vám pošleme potvrdzujúci e-mail.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl border border-forest-100 overflow-hidden relative">
+                <div class="absolute inset-0 flex items-center justify-center bg-white z-0">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-earth-500"></div>
+                </div>
+
+                <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfjkbvHvTcVU_pDU_MpzQmTT760cQF9CE5WmKvNLE_8V66iSw/closedform"
+                    width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0"
+                    class="relative z-10 w-full">
+                    Načítavam...
+                </iframe>
+            </div>
+
+            <div class="mt-8 text-center text-forest-500 text-sm">
+                Máte problém s formulárom? Napíšte nám na <a href="mailto:medvedibratia.pt26@gmail.com"
+                    class="text-earth-500 font-bold">medvedibratia.pt26@gmail.com</a>
+            </div>
         </div>
-    </header>
-
-    <section class="py-12">
-        <div class="max-w-4xl mx-auto px-4 space-y-6">
-
-            <script>
-                const dni = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"];
-                dni.forEach((den, i) => {
-                    document.write(`
-                        <div class="bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden mb-6">
-                            <div class="${i === 6 ? 'bg-earth-600' : 'bg-forest-800'} px-8 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-lg font-bold uppercase tracking-widest">${i + 1}. DEŇ - ${den}</h3>
-                                <span class="opacity-50 text-sm">PT2026</span>
-                            </div>
-                            <div class="p-8 grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">📍 Miesto stretnutia</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">🏡 Miesto ukončenia</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">👕 Dôležité oblečenie</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">⛪ Svätá omša</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                });
-            </script>
-
-        </div>
-    </section>
+    </main>
 
     <footer class="bg-forest-900 text-forest-200 py-10 sm:py-16 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-64 h-64 bg-forest-800/30 rounded-full -translate-x-1/2 -translate-y-1/2">
@@ -214,62 +195,63 @@
             </div>
         </div>
     </footer>
+
 </body>
 <script>
-    // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        let isMenuOpen = false;
+            // Mobile menu toggle
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuIcon = document.getElementById('menu-icon');
+                let isMenuOpen = false;
 
-        mobileMenuBtn.addEventListener('click', function () {
-            isMenuOpen = !isMenuOpen;
-            mobileMenu.classList.toggle('hidden');
+                mobileMenuBtn.addEventListener('click', function () {
+                    isMenuOpen = !isMenuOpen;
+                    mobileMenu.classList.toggle('hidden');
 
-            if (isMenuOpen) {
-                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-            } else {
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-            }
-        });
+                    if (isMenuOpen) {
+                        menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                    } else {
+                        menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+                    }
+                });
 
-        // Close mobile menu when clicking a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                mobileMenu.classList.add('hidden');
-                isMenuOpen = false;
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-            });
-        });
-
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
+                // Close mobile menu when clicking a link
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileMenu.classList.add('hidden');
+                        isMenuOpen = false;
+                        menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
                     });
-                }
-            });
-        });
+                });
 
-        // Add scroll effect to navbar
-        window.addEventListener('scroll', function () {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('shadow-xl');
-            }
-        });
+                // Smooth scroll for all anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            const headerOffset = 80;
+                            const elementPosition = target.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+
+                // Add scroll effect to navbar
+                window.addEventListener('scroll', function () {
+                    const nav = document.querySelector('nav');
+                    if (window.scrollY > 50) {
+                        nav.classList.add('shadow-xl');
+                    } else {
+                        nav.classList.remove('shadow-xl');
+                    }
+                });
 </script>
 
 </html>
