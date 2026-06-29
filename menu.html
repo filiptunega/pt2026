@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="sk" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,296 +10,264 @@
             theme: {
                 extend: {
                     colors: {
-                        forest: {
-                            50: '#f6f7f4', 100: '#e3e7de', 200: '#c7d0be', 300: '#a3b296',
-                            400: '#7f9471', 500: '#627856', 600: '#4c5f43', 700: '#3d4b37',
-                            800: '#1e3a1e', 900: '#152714',
-                        },
-                        earth: {
-                            50: '#faf6f1', 100: '#f0e6d8', 200: '#e1ccb0', 300: '#d1ad82',
-                            400: '#c4925d', 500: '#b87d4a', 600: '#a5663e', 700: '#894f35',
-                            800: '#704231', 900: '#5c382a',
-                        },
-                        cream: {
-                            50: '#fdfcf9', 100: '#f9f6ef', 200: '#f3ecdd', 300: '#e9ddc4', 400: '#dcc9a3',
-                        }
+                        forest: { 50:'#f6f7f4',100:'#e3e7de',200:'#c7d0be',300:'#a3b296',400:'#7f9471',500:'#627856',600:'#4c5f43',700:'#3d4b37',800:'#1e3a1e',900:'#152714' },
+                        earth:  { 50:'#faf6f1',100:'#f0e6d8',200:'#e1ccb0',300:'#d1ad82',400:'#c4925d',500:'#b87d4a',600:'#a5663e',700:'#894f35',800:'#704231',900:'#5c382a' },
+                        cream:  { 50:'#fdfcf9',100:'#f9f6ef',200:'#f3ecdd',300:'#e9ddc4',400:'#dcc9a3' }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter','system-ui','sans-serif'] }
                 }
             }
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        body { opacity: 0; transition: opacity 0.4s ease; }
+        body.loaded { opacity: 1; }
+
         .hero-mini {
-            background-image: linear-gradient(to bottom, rgba(30, 58, 30, 0.85), rgba(30, 58, 30, 0.95)), url('images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
+            background-image: linear-gradient(to bottom, rgba(30,58,30,0.85), rgba(30,58,30,0.95)), url('images/hero-bg.jpg');
+            background-size: cover; background-position: center;
         }
 
+        /* Scroll reveal */
+        .reveal { opacity:0; transform:translateY(36px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        /* Nav link underline */
+        .nav-link { position:relative; padding-bottom:2px; }
+        .nav-link::after { content:''; position:absolute; bottom:0; left:0; height:2px; width:0; background:#d1ad82; transition:width 0.3s ease; }
+        .nav-link:hover::after { width:100%; }
+
+        /* Hero text */
+        @keyframes fadeInDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInUp   { from { opacity:0; transform:translateY(24px); }  to { opacity:1; transform:translateY(0); } }
+        .hero-title { animation: fadeInDown 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+        .hero-sub   { animation: fadeInUp   0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both; }
+
+        /* Card hover */
         .menu-card {
-            transition: all 0.3s ease;
+            transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, border-color 0.2s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(30,58,30,0.12);
         }
 
-        .menu-card:hover {
-            transform: translateY(-5px);
+        /* Card header icon bounce */
+        .card-icon {
+            display:inline-block;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
         }
+        .menu-card:hover .card-icon { transform: scale(1.3) rotate(10deg); }
+
+        /* Placeholder shimmer */
+        @keyframes shimmerBg { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+        .shimmer-line {
+            background: linear-gradient(90deg, #e3e7de 25%, #f6f7f4 50%, #e3e7de 75%);
+            background-size: 800px 100%;
+            animation: shimmerBg 1.8s infinite;
+            border-radius: 8px;
+            height: 16px;
+        }
+
+        /* Button */
+        .btn-press { transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease; }
+        .btn-press:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+        .btn-press:active { transform: scale(0.97); }
+
+        /* Progress bar */
+        #progress-bar { position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,#b87d4a,#d1ad82); z-index:9999; transition:width 0.1s linear; }
+
+        /* Back to top */
+        #back-to-top {
+            position:fixed; bottom:28px; right:28px; width:48px; height:48px;
+            background:#1e3a1e; color:#e9ddc4; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            opacity:0; pointer-events:none; cursor:pointer;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background-color 0.2s;
+            z-index:100; box-shadow:0 4px 16px rgba(30,58,30,0.4);
+        }
+        #back-to-top.visible { opacity:1; pointer-events:auto; }
+        #back-to-top:hover { background:#b87d4a; transform:translateY(-4px) scale(1.08); }
+
+        /* Mobile menu slide */
+        #mobile-menu { max-height:0; overflow:hidden; transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s; opacity:0; }
+        #mobile-menu.open { max-height:400px; opacity:1; }
+        .ham-line { display:block; width:22px; height:2px; background:currentColor; border-radius:2px; transition:transform 0.3s ease, opacity 0.3s; transform-origin:center; }
+        .ham-open .ham-top { transform:translateY(8px) rotate(45deg); }
+        .ham-open .ham-mid { opacity:0; transform:scaleX(0); }
+        .ham-open .ham-bot { transform:translateY(-8px) rotate(-45deg); }
+
+        /* Social */
+        .social-btn { transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background-color 0.2s, box-shadow 0.2s; }
+        .social-btn:hover { transform:translateY(-4px) scale(1.12); box-shadow:0 8px 20px rgba(184,125,74,0.3); }
+
+        /* Stagger delays */
+        .d0{transition-delay:0s}.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
     </style>
 </head>
-
 <body class="bg-cream-50 text-forest-900 font-sans antialiased">
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 md:h-20">
-                <a href="index.html" class="flex items-center gap-2 group z-50">
-                    <span class="text-2xl md:text-3xl">🐻</span>
-                    <span
-                        class="text-lg sm:text-xl md:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors">
-                        Medvedí bratia - PT2026
-                    </span>
-                </a>
-    
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="menu.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Jedálny
-                        lístok</a>
-                    <a href="program.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Program
-                        tábora</a>
-                    <a href="index.html#galeria" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
-                    <a href="index.html#iHra" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová
-                        hra</a>
-                    <a href="index.html#kontakt" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
-                    <a href="index.html#prihlaska"
-                        class="bg-earth-500 hover:bg-earth-600 text-white px-5 py-2.5 rounded-full font-semibold transition-all hover:shadow-lg hover:scale-105">
-                        Prihlásiť sa
+
+<div id="progress-bar"></div>
+
+<button id="back-to-top" aria-label="Späť nahor">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>
+    </svg>
+</button>
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 md:h-20">
+            <a href="index.html" class="flex items-center gap-2 group z-50">
+                <span class="text-2xl md:text-3xl transition-transform group-hover:rotate-12 duration-300 inline-block">🐻</span>
+                <span class="text-lg sm:text-xl md:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors duration-300">Medvedí bratia - PT2026</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="menu.html"        class="text-earth-300 font-medium relative pb-1 border-b-2 border-earth-300">Jedálny lístok</a>
+                <a href="program.html"     class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Program tábora</a>
+                <a href="index.html#galeria" class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
+                <a href="index.html#iHra"  class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová hra</a>
+                <a href="index.html#kontakt" class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-cream-100 p-2 hover:bg-forest-700 rounded-lg transition-colors z-50 flex flex-col gap-1.5" aria-label="Menu">
+                <span class="ham-line ham-top"></span>
+                <span class="ham-line ham-mid"></span>
+                <span class="ham-line ham-bot"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden bg-forest-800 border-t border-forest-700">
+        <div class="px-4 py-4 space-y-2">
+            <a href="menu.html"          class="block text-earth-300 font-medium text-lg py-3 border-b border-forest-700/50">Jedálny lístok</a>
+            <a href="program.html"       class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 duration-200">Program tábora</a>
+            <a href="index.html#galeria" class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 duration-200">Galéria</a>
+            <a href="index.html#iHra"   class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 duration-200">Internetová hra</a>
+            <a href="index.html#kontakt" class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 duration-200">Kontakt</a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero-mini pt-32 pb-16 md:pt-40 md:pb-24 text-center overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4">
+        <h1 class="hero-title text-4xl md:text-5xl font-extrabold text-white mb-4 uppercase tracking-tight">
+            Jedálny <span style="color:#d1ad82">Lístok</span>
+        </h1>
+        <p class="hero-sub text-cream-200 text-lg max-w-xl mx-auto italic opacity-90">
+            "Hladný medveď je zlý medveď. My sa postaráme, aby boli všetci sýti."
+        </p>
+    </div>
+</header>
+
+<section class="py-12 md:py-16">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="space-y-6" id="menu-cards"></div>
+    </div>
+</section>
+
+<section class="py-12 bg-forest-900 text-white overflow-hidden relative">
+    <div class="max-w-4xl mx-auto px-4 text-center reveal">
+        <h2 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+            <span>ℹ️</span> Informácie o stravovaní
+        </h2>
+        <p class="text-forest-300 italic max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+            Čas obeda sa prispôsobuje aktuálnemu programu a hladu svorky. Menu na ďalšie dni bude dopĺňané priebežne priamo v tábore.
+        </p>
+    </div>
+</section>
+
+<footer class="bg-forest-900 text-forest-200 py-10 sm:py-16 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-forest-800/30 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-48 h-48 bg-earth-600/10 rounded-full translate-x-1/3 translate-y-1/3"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative reveal">
+        <div class="flex flex-col items-center gap-8">
+            <a href="https://kaplna.domka.sk/" class="flex flex-col items-center gap-3 sm:gap-4 group">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 ring-earth-500/30 group-hover:ring-earth-500/60 group-hover:scale-105 transition-all duration-300 shadow-lg">
+                    <img src="images/logo_kaplna.png" alt="Kaplná domka logo" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xl sm:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors duration-300">Domka Kaplna</span>
+            </a>
+            <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                <a href="index.html#kontakt" class="text-cream-200 hover:text-earth-300 transition-colors font-medium text-base sm:text-lg">Kontakt</a>
+                <div class="h-6 w-px bg-forest-700 hidden sm:block"></div>
+                <div class="flex gap-4">
+                    <a href="https://www.facebook.com/kaplna.mladych" class="social-btn w-10 h-10 sm:w-12 sm:h-12 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center" aria-label="Facebook">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4Z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/kaplna_mladych/" class="social-btn w-10 h-10 sm:w-12 sm:h-12 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center" aria-label="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2.16c3.2,0,3.58,0,4.85.07,3.25.15,4.77,1.69,4.92,4.92.06,1.27.07,1.65.07,4.85s0,3.58-.07,4.85c-.15,3.23-1.66,4.77-4.92,4.92-1.27.06-1.65.07-4.85.07s-3.58,0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s0-3.58.07-4.85C2.38,3.92,3.9,2.38,7.15,2.23,8.42,2.18,8.8,2.16,12,2.16ZM12,0C8.74,0,8.33,0,7.05.07c-4.27.2-6.78,2.71-7,7C0,8.33,0,8.74,0,12s0,3.67.07,4.95c.2,4.27,2.71,6.78,7,7C8.33,24,8.74,24,12,24s3.67,0,4.95-.07c4.27-.2,6.78-2.71,7-7C24,15.67,24,15.26,24,12s0-3.67-.07-4.95c-.2-4.27-2.71-6.78-7-7C15.67,0,15.26,0,12,0Zm0,5.84A6.16,6.16,0,1,0,18.16,12,6.16,6.16,0,0,0,12,5.84ZM12,16a4,4,0,1,1,4-4A4,4,0,0,1,12,16ZM18.41,4.15a1.44,1.44,0,1,0,1.44,1.44A1.44,1.44,0,0,0,18.41,4.15Z"/></svg>
                     </a>
                 </div>
-    
-                <button id="mobile-menu-btn"
-                    class="md:hidden text-cream-100 p-2 hover:bg-forest-700 rounded-lg transition-colors z-50"
-                    aria-label="Menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
             </div>
         </div>
-    
-        <div id="mobile-menu"
-            class="hidden md:hidden bg-forest-800 border-t border-forest-700 max-h-[calc(100vh-4rem)] overflow-y-auto">
-            <div class="px-4 py-4 space-y-2">
-                <a href="menu.html"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Jedálny
-                    lístok</a>
-                <a href="program.html"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Program
-                    tábora</a>
-                <a href="index.html#galeria"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Galéria</a>
-                <a href="index.html#iHra"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Internetová
-                    hra</a>
-                <a href="index.html#kontakt"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Kontakt</a>
-                <a href="index.html#prihlaska"
-                    class="block w-full bg-earth-500 hover:bg-earth-600 text-white px-5 py-4 rounded-full font-semibold text-center transition-all mt-6 shadow-md">
-                    Prihlásiť sa
-                </a>
-            </div>
+        <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-forest-700/50 text-center">
+            <p class="text-forest-400 text-xs sm:text-sm">© 2026 Pridedínsky tábor. Všetky práva vyhradené.</p>
         </div>
-    </nav>
+    </div>
+</footer>
 
-    <header class="hero-mini pt-32 pb-16 md:pt-40 md:pb-24 text-center">
-        <div class="max-w-5xl mx-auto px-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 uppercase tracking-tight">
-                Jedálny <span class="text-earth-300">Lístok</span>
-            </h1>
-            <p class="text-cream-200 text-lg max-w-xl mx-auto italic">
-                "Hladný medveď je zlý medveď. My sa postaráme, aby boli všetci sýti."
-            </p>
-        </div>
-    </header>
-
-    <section class="py-12 md:py-20">
-        <div class="max-w-4xl mx-auto px-4 space-y-6">
-
-            <!-- <div class="menu-card bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden">
-                <div class="bg-forest-800 px-8 py-4 flex justify-between items-center text-white">
-                    <h3 class="text-lg font-bold uppercase tracking-widest">Pondelok</h3>
-                    <span class="text-2xl">🍗</span>
-                </div>
-                <div class="p-8">
-                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-2">Hlavné jedlo</h4>
-                    <p class="text-forest-800 font-bold text-xl leading-tight">Kuracie soté na prírodno, dusená ryža a
-                        miešaný šalát</p>
-                </div>
-            </div> -->
-
-            <!-- <div class="menu-card bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden">
-                <div class="bg-forest-700 px-8 py-4 flex justify-between items-center text-white">
-                    <h3 class="text-lg font-bold uppercase tracking-widest">Utorok</h3>
-                    <span class="text-2xl">🥩</span>
-                </div>
-                <div class="p-8">
-                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-2">Hlavné jedlo</h4>
-                    <p class="text-forest-800 font-bold text-xl leading-tight">Tradičný bravčový rezeň, zemiaková kaša a
-                        kyslá uhorka</p>
-                </div>
-            </div> -->
-
-            <!-- <div class="menu-card bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden">
-                <div class="bg-forest-800 px-8 py-4 flex justify-between items-center text-white">
-                    <h3 class="text-lg font-bold uppercase tracking-widest">Streda</h3>
-                    <span class="text-2xl">🍲</span>
-                </div>
-                <div class="p-8">
-                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-2">Hlavné jedlo</h4>
-                    <p class="text-forest-800 font-bold text-xl leading-tight">Hovädzí guláš "Bratská sila" s domácou
-                        knedľou</p>
-                </div>
-            </div> -->
-
-            <script>
-                const dni = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"];
-                const ikony = ["🍝", "🐟", "🌭", "🍰", "🍕", "🍔", "🥗"];
-                dni.forEach((den, i) => {
-                    document.write(`
-                        <div class="menu-card bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden">
-                            <div class="${(i % 2 === 0) ? 'bg-forest-700' : 'bg-forest-800'} px-8 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-lg font-bold uppercase tracking-widest">${den}</h3>
-                                <span class="text-2xl">${ikony[i]}</span>
-                            </div>
-                            <div class="p-8">
-                                <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-2">Hlavné jedlo</h4>
-                                <div class="flex items-center gap-2 text-forest-400 italic text-base bg-forest-50 px-4 py-3 rounded-xl border border-forest-100">
-                                    <span>⏳</span> Bude dostupné počas tábora
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                });
-            </script>
-
-        </div>
-    </section>
-
-    <section class="py-12 bg-forest-900 text-white overflow-hidden relative">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-2xl font-bold mb-4">Informácie o stravovaní</h2>
-            <p class="text-forest-300 italic max-w-2xl mx-auto">
-                Čas obeda sa prispôsobuje aktuálnemu programu a hladu svorky. Menu na ďalšie dni bude dopĺňané priebežne
-                priamo v tábore.
-            </p>
-        </div>
-    </section>
-
-    <footer class="bg-forest-900 text-forest-200 py-10 sm:py-16 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-64 h-64 bg-forest-800/30 rounded-full -translate-x-1/2 -translate-y-1/2">
-        </div>
-        <div class="absolute bottom-0 right-0 w-48 h-48 bg-earth-600/10 rounded-full translate-x-1/3 translate-y-1/3">
-        </div>
-    
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div class="flex flex-col items-center gap-8">
-                <a href="https://kaplna.domka.sk/" class="flex flex-col items-center gap-3 sm:gap-4 group">
-                    <div
-                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 ring-earth-500/30 group-hover:ring-earth-500/50 transition-all shadow-lg">
-                        <img src="images/logo_kaplna.png" alt="Kaplná domka logo" class="w-full h-full object-cover">
-                    </div>
-                    <span class="text-xl sm:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors">Domka Kaplna
-                    </span>
-                </a>
-    
-                <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                    <a href="index.html#kontakt"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium text-base sm:text-lg">Kontakt</a>
-                    <div class="h-6 w-px bg-forest-700 hidden sm:block"></div>
-                    <div class="flex gap-4">
-                        <a href="https://www.facebook.com/kaplna.mladych"
-                            class="w-10 h-10 sm:w-12 sm:h-12 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:shadow-lg"
-                            aria-label="Facebook">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4Z" />
-                            </svg>
-                        </a>
-                        <a href="https://www.instagram.com/kaplna_mladych/"
-                            class="w-10 h-10 sm:w-12 sm:h-12 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:shadow-lg"
-                            aria-label="Instagram">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12,2.16c3.2,0,3.58,0,4.85.07,3.25.15,4.77,1.69,4.92,4.92.06,1.27.07,1.65.07,4.85s0,3.58-.07,4.85c-.15,3.23-1.66,4.77-4.92,4.92-1.27.06-1.65.07-4.85.07s-3.58,0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s0-3.58.07-4.85C2.38,3.92,3.9,2.38,7.15,2.23,8.42,2.18,8.8,2.16,12,2.16ZM12,0C8.74,0,8.33,0,7.05.07c-4.27.2-6.78,2.71-7,7C0,8.33,0,8.74,0,12s0,3.67.07,4.95c.2,4.27,2.71,6.78,7,7C8.33,24,8.74,24,12,24s3.67,0,4.95-.07c4.27-.2,6.78-2.71,7-7C24,15.67,24,15.26,24,12s0-3.67-.07-4.95c-.2-4.27-2.71-6.78-7-7C15.67,0,15.26,0,12,0Zm0,5.84A6.16,6.16,0,1,0,18.16,12,6.16,6.16,0,0,0,12,5.84ZM12,16a4,4,0,1,1,4-4A4,4,0,0,1,12,16ZM18.41,4.15a1.44,1.44,0,1,0,1.44,1.44A1.44,1.44,0,0,0,18.41,4.15Z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-forest-700/50 text-center">
-                <p class="text-forest-400 text-xs sm:text-sm">
-                    © 2026 Pridedínsky tábor. Všetky práva vyhradené.
-                </p>
-            </div>
-        </div>
-    </footer>
-</body>
 <script>
-    // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        let isMenuOpen = false;
+    // Page load
+    window.addEventListener('load', () => document.body.classList.add('loaded'));
 
-        mobileMenuBtn.addEventListener('click', function () {
-            isMenuOpen = !isMenuOpen;
-            mobileMenu.classList.toggle('hidden');
+    // Generate menu cards
+    const dni   = ["Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota","Nedeľa"];
+    const ikony = ["🍝","🐟","🌭","🍰","🍕","🍔","🥗"];
+    const container = document.getElementById('menu-cards');
+    dni.forEach((den, i) => {
+        const div = document.createElement('div');
+        div.className = `menu-card bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden reveal d${i % 7}`;
+        div.innerHTML = `
+            <div class="${i%2===0?'bg-forest-700':'bg-forest-800'} px-6 py-4 md:px-8 flex justify-between items-center text-white">
+                <h3 class="text-base md:text-lg font-bold uppercase tracking-widest">${den}</h3>
+                <span class="card-icon text-2xl cursor-default">${ikony[i]}</span>
+            </div>
+            <div class="p-6 md:p-8">
+                <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-2">Hlavné jedlo</h4>
+                <div class="flex items-center gap-2 text-forest-400 italic text-sm md:text-base bg-forest-50 px-4 py-3 rounded-xl border border-forest-100 hover:bg-forest-100/50 transition-colors duration-200">
+                    <span>⏳</span> Bude dostupné počas tábora
+                </div>
+            </div>`;
+        container.appendChild(div);
+    });
 
-            if (isMenuOpen) {
-                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-            } else {
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-            }
-        });
+    // Scroll progress
+    window.addEventListener('scroll', () => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById('progress-bar').style.width = (window.scrollY / total * 100) + '%';
+    });
 
-        // Close mobile menu when clicking a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                mobileMenu.classList.add('hidden');
-                isMenuOpen = false;
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-            });
-        });
+    // Back to top
+    const btt = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400));
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // Nav scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('shadow-xl', window.scrollY > 50);
+        nav.classList.toggle('bg-forest-900', window.scrollY > 50);
+        nav.classList.toggle('bg-forest-800/95', window.scrollY <= 50);
+    });
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+    // Mobile menu
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    let open = false;
+    btn.addEventListener('click', () => {
+        open = !open;
+        menu.classList.toggle('open', open);
+        btn.classList.toggle('ham-open', open);
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        open = false; menu.classList.remove('open'); btn.classList.remove('ham-open');
+    }));
 
-        // Add scroll effect to navbar
-        window.addEventListener('scroll', function () {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('shadow-xl');
-            }
-        });
+    // Intersection Observer
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
-
+</body>
 </html>

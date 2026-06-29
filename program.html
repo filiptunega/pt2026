@@ -11,19 +11,9 @@
             theme: {
                 extend: {
                     colors: {
-                        forest: {
-                            50: '#f6f7f4', 100: '#e3e7de', 200: '#c7d0be', 300: '#a3b296',
-                            400: '#7f9471', 500: '#627856', 600: '#4c5f43', 700: '#3d4b37',
-                            800: '#1e3a1e', 900: '#152714',
-                        },
-                        earth: {
-                            50: '#faf6f1', 100: '#f0e6d8', 200: '#e1ccb0', 300: '#d1ad82',
-                            400: '#c4925d', 500: '#b87d4a', 600: '#a5663e', 700: '#894f35',
-                            800: '#704231', 900: '#5c382a',
-                        },
-                        cream: {
-                            50: '#fdfcf9', 100: '#f9f6ef', 200: '#f3ecdd', 300: '#e9ddc4', 400: '#dcc9a3',
-                        }
+                        forest: { 50: '#f6f7f4', 100: '#e3e7de', 200: '#c7d0be', 300: '#a3b296', 400: '#7f9471', 500: '#627856', 600: '#4c5f43', 700: '#3d4b37', 800: '#1e3a1e', 900: '#152714' },
+                        earth: { 50: '#faf6f1', 100: '#f0e6d8', 200: '#e1ccb0', 300: '#d1ad82', 400: '#c4925d', 500: '#b87d4a', 600: '#a5663e', 700: '#894f35', 800: '#704231', 900: '#5c382a' },
+                        cream: { 50: '#fdfcf9', 100: '#f9f6ef', 200: '#f3ecdd', 300: '#e9ddc4', 400: '#dcc9a3' }
                     },
                     fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
                 }
@@ -32,162 +22,674 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        body {
+            opacity: 0;
+            transition: opacity 0.45s ease;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
         .hero-mini {
-            background-image: linear-gradient(to bottom, rgba(30, 58, 30, 0.85), rgba(30, 58, 30, 0.95)), url('images/hero-bg.jpg');
+            background-image: linear-gradient(160deg, rgba(21, 39, 20, 0.92) 0%, rgba(30, 58, 30, 0.80) 100%), url('images/hero-bg.jpg');
             background-size: cover;
             background-position: center;
         }
 
-        .info-placeholder {
-            @apply flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-1.5 rounded-lg border border-forest-100;
+        /* ── Nav ── */
+        .nav-link {
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: #d1ad82;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+            opacity: 0;
+        }
+
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .ham-line {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+            transform-origin: center;
+        }
+
+        .ham-open .ham-top {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .ham-open .ham-mid {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .ham-open .ham-bot {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* ── Hero ── */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-18px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .hero-title {
+            animation: fadeDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+        }
+
+        .hero-sub {
+            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+        }
+
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Progress bar ── */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, #b87d4a, #d1ad82);
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* ── Back to top ── */
+        #back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 46px;
+            height: 46px;
+            background: #1e3a1e;
+            color: #e9ddc4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+            z-index: 100;
+            box-shadow: 0 4px 16px rgba(30, 58, 30, 0.4);
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #back-to-top:hover {
+            background: #b87d4a;
+            transform: translateY(-4px) scale(1.08);
+        }
+
+        /* ── Timeline layout ── */
+        .timeline-wrap {
+            position: relative;
+            padding-left: 56px;
+        }
+
+        /* Vertical line */
+        .timeline-wrap::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(to bottom, #d1ad82 0%, #a3b296 50%, #d1ad82 100%);
+            border-radius: 2px;
+        }
+
+        /* ── Timeline item ── */
+        .tl-item {
+            position: relative;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tl-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Dot on the line */
+        .tl-dot {
+            position: absolute;
+            left: -45px;
+            top: 18px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #b87d4a;
+            border: 3px solid #fdfcf9;
+            box-shadow: 0 0 0 2px #b87d4a;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            z-index: 2;
+        }
+
+        .tl-item:hover .tl-dot {
+            transform: scale(1.4);
+            box-shadow: 0 0 0 4px rgba(184, 125, 74, 0.25);
+        }
+
+        .tl-dot.sunday {
+            background: #a5663e;
+            box-shadow: 0 0 0 2px #a5663e;
+        }
+
+        /* Day label floating left */
+        .tl-day-label {
+            position: absolute;
+            left: -56px;
+            top: 52px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #7f9471;
+            opacity: 0.7;
+            transform: rotate(180deg);
+            user-select: none;
+        }
+
+        /* Card */
+        .tl-card {
+            background: #ffffff;
+            border: 1px solid #e3e7de;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+        }
+
+        .tl-card:hover {
+            box-shadow: 0 12px 36px rgba(30, 58, 30, 0.10);
+            transform: translateY(-3px);
+            border-color: #c7d0be;
+        }
+
+        .tl-card.sunday-card:hover {
+            box-shadow: 0 12px 36px rgba(165, 102, 62, 0.14);
+            border-color: #d1ad82;
+        }
+
+        /* Card header — slim pill style */
+        .tl-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid #e3e7de;
+        }
+
+        .tl-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .tl-num {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            background: #1e3a1e;
+            color: #e9ddc4;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .tl-card:hover .tl-num {
+            transform: rotate(-8deg) scale(1.1);
+        }
+
+        .tl-num.sunday {
+            background: #a5663e;
+        }
+
+        .tl-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #1e3a1e;
+        }
+
+        .tl-date {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #7f9471;
+        }
+
+        .tl-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #a3b296;
+            background: #f6f7f4;
+            padding: 0.2rem 0.55rem;
+            border-radius: 99px;
+            border: 1px solid #e3e7de;
+        }
+
+        /* Card body */
+        .tl-body {
+            padding: 1rem 1.25rem 1.25rem;
+        }
+
+        /* Info grid — clearly labeled rows (readable for everyone, incl. starí rodičia) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+        }
+
+        @media (min-width: 480px) {
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            background: #f6f7f4;
+            border: 1px solid #e3e7de;
+            border-radius: 0.75rem;
+            padding: 0.55rem 0.75rem;
+            transition: background-color 0.2s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .info-item:hover {
+            background: #e3e7de;
+            transform: translateY(-1px);
+        }
+
+        .info-icon {
+            flex-shrink: 0;
+            font-size: 1.05rem;
+            line-height: 1.3;
+            margin-top: 0.05rem;
+        }
+
+        .info-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #7f9471;
+            margin-bottom: 0.1rem;
+        }
+
+        .info-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e3a1e;
+            line-height: 1.35;
+        }
+
+        /* Obed — emphasised tile inside the grid */
+        .info-item-em {
+            background: #faf6f1;
+            border-color: #e1ccb0;
+        }
+
+        .info-item-em .info-label {
+            color: #a5663e;
+        }
+
+        .info-item-em .info-value {
+            color: #704231;
+        }
+
+        /* Oblečenie — full-width highlighted row, always visible */
+        .info-item-clothing {
+            background: #faf6f1;
+            border: 1px solid #e1ccb0;
+            margin-bottom: 0.85rem;
+        }
+
+        .info-item-clothing:hover {
+            background: #f0e6d8;
+        }
+
+        .info-item-clothing .info-label {
+            color: #a5663e;
+        }
+
+        .info-item-clothing .info-value {
+            color: #704231;
+        }
+
+        /* Popis text */
+        .tl-popis {
+            font-size: 0.78rem;
+            color: #3d4b37;
+            line-height: 1.65;
+            border-top: 1px solid #f6f7f4;
+            padding-top: 0.75rem;
+        }
+
+        /* Expand/collapse toggle */
+        .tl-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #7f9471;
+            margin-top: 0.6rem;
+            transition: color 0.2s;
+            padding: 0;
+        }
+
+        .tl-toggle:hover {
+            color: #b87d4a;
+        }
+
+        .tl-toggle svg {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tl-toggle.open svg {
+            transform: rotate(180deg);
+        }
+
+        .tl-popis-wrap {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            opacity: 0;
+        }
+
+        .tl-popis-wrap.open {
+            max-height: 600px;
+            opacity: 1;
+        }
+
+        /* Info box — parents section */
+        .info-box {
+            background: #fff;
+            border: 1.5px solid #e1ccb0;
+            border-radius: 1.1rem;
+            padding: 1.4rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .equip-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #3d4b37;
+            background: #f6f7f4;
+            border: 1px solid #e3e7de;
+            border-radius: 99px;
+            padding: 0.3rem 0.7rem;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+        }
+
+        .equip-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(98, 120, 86, 0.15);
+        }
+
+        .btn-press {
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s;
+        }
+
+        .btn-press:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .btn-press:active {
+            transform: scale(0.97);
+        }
+
+        .social-btn {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-4px) scale(1.12);
+            box-shadow: 0 8px 20px rgba(184, 125, 74, 0.3);
+        }
+
+        /* Mobile: hide vertical day label on narrow screens */
+        @media (max-width: 480px) {
+            .tl-day-label {
+                display: none;
+            }
+
+            .timeline-wrap {
+                padding-left: 40px;
+            }
+
+            .timeline-wrap::before {
+                left: 13px;
+            }
+
+            .tl-dot {
+                left: -29px;
+            }
         }
     </style>
 </head>
 
 <body class="bg-cream-50 text-forest-900 font-sans antialiased">
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg">
+
+    <div id="progress-bar"></div>
+
+    <button id="back-to-top" aria-label="Späť nahor">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Nav -->
+    <nav
+        class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 md:h-20">
                 <a href="index.html" class="flex items-center gap-2 group z-50">
-                    <span class="text-2xl md:text-3xl">🐻</span>
                     <span
-                        class="text-lg sm:text-xl md:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors">
-                        Medvedí bratia - PT2026
-                    </span>
+                        class="text-2xl md:text-3xl transition-transform group-hover:rotate-12 duration-300 inline-block">🐻</span>
+                    <span
+                        class="text-lg sm:text-xl md:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors duration-300">Medvedí
+                        bratia - PT2026</span>
                 </a>
-    
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="menu.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Jedálny
+                    <a href="menu.html"
+                        class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Jedálny
                         lístok</a>
-                    <a href="program.html" class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Program
-                        tábora</a>
+                    <a href="program.html"
+                        class="text-earth-300 font-medium relative pb-1 border-b-2 border-earth-300">Program tábora</a>
                     <a href="index.html#galeria"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
+                        class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Galéria</a>
                     <a href="index.html#iHra"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová
+                        class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Internetová
                         hra</a>
                     <a href="index.html#kontakt"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
-                    <a href="index.html#prihlaska"
-                        class="bg-earth-500 hover:bg-earth-600 text-white px-5 py-2.5 rounded-full font-semibold transition-all hover:shadow-lg hover:scale-105">
-                        Prihlásiť sa
-                    </a>
+                        class="nav-link text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
                 </div>
-    
                 <button id="mobile-menu-btn"
-                    class="md:hidden text-cream-100 p-2 hover:bg-forest-700 rounded-lg transition-colors z-50"
+                    class="md:hidden text-cream-100 p-2 hover:bg-forest-700 rounded-lg transition-colors z-50 flex flex-col gap-1.5"
                     aria-label="Menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
+                    <span class="ham-line ham-top"></span>
+                    <span class="ham-line ham-mid"></span>
+                    <span class="ham-line ham-bot"></span>
                 </button>
             </div>
         </div>
-    
-        <div id="mobile-menu"
-            class="hidden md:hidden bg-forest-800 border-t border-forest-700 max-h-[calc(100vh-4rem)] overflow-y-auto">
-            <div class="px-4 py-4 space-y-2">
+        <div id="mobile-menu" class="md:hidden bg-forest-800 border-t border-forest-700">
+            <div class="px-4 py-4 space-y-1">
                 <a href="menu.html"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Jedálny
+                    class="block text-cream-200 hover:text-earth-300 font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 transition-all duration-200">Jedálny
                     lístok</a>
                 <a href="program.html"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Program
+                    class="block text-earth-300 font-medium text-lg py-3 border-b border-forest-700/50">Program
                     tábora</a>
                 <a href="index.html#galeria"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Galéria</a>
+                    class="block text-cream-200 hover:text-earth-300 font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 transition-all duration-200">Galéria</a>
                 <a href="index.html#iHra"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Internetová
+                    class="block text-cream-200 hover:text-earth-300 font-medium text-lg py-3 border-b border-forest-700/50 hover:pl-2 transition-all duration-200">Internetová
                     hra</a>
                 <a href="index.html#kontakt"
-                    class="block text-cream-200 hover:text-earth-300 transition-colors font-medium text-lg py-3 border-b border-forest-700/50">Kontakt</a>
-                <a href="index.html#prihlaska"
-                    class="block w-full bg-earth-500 hover:bg-earth-600 text-white px-5 py-4 rounded-full font-semibold text-center transition-all mt-6 shadow-md">
-                    Prihlásiť sa
-                </a>
+                    class="block text-cream-200 hover:text-earth-300 font-medium text-lg py-3 hover:pl-2 transition-all duration-200">Kontakt</a>
             </div>
         </div>
     </nav>
 
-    <header class="hero-mini pt-32 pb-16 md:pt-40 md:pb-24 text-center">
-        <div class="max-w-5xl mx-auto px-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 uppercase tracking-tight">Program <span
-                    class="text-earth-300">Tábora</span></h1>
-            <p class="text-cream-200 text-lg max-w-xl mx-auto italic">Informácie budú priebežne dopĺňané našimi vedúcimi
-                priamo v teréne.</p>
+    <!-- Hero -->
+    <header class="hero-mini pt-32 pb-14 md:pt-40 md:pb-20 text-center overflow-hidden">
+        <div class="max-w-3xl mx-auto px-4">
+            <p class="hero-sub text-earth-300 text-xs font-bold uppercase tracking-widest mb-3">PT2026 · 6.–12. júla</p>
+            <h1 class="hero-title text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+                Program <span style="color:#d1ad82">tábora</span>
+            </h1>
+            <p class="hero-sub text-cream-200/80 text-base max-w-lg mx-auto leading-relaxed">
+                Aktuálne informácie o harmonograme a dôležitých organizačných pokynoch.
+            </p>
         </div>
     </header>
 
-    <section class="py-12">
-        <div class="max-w-4xl mx-auto px-4 space-y-6">
+    <section class="py-14 md:py-20">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
-            <script>
-                const dni = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"];
-                dni.forEach((den, i) => {
-                    document.write(`
-                        <div class="bg-white rounded-[2rem] shadow-md border border-forest-100 overflow-hidden mb-6">
-                            <div class="${i === 6 ? 'bg-earth-600' : 'bg-forest-800'} px-8 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-lg font-bold uppercase tracking-widest">${i + 1}. DEŇ - ${den}</h3>
-                                <span class="opacity-50 text-sm">PT2026</span>
-                            </div>
-                            <div class="p-8 grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">📍 Miesto stretnutia</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">🏡 Miesto ukončenia</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">👕 Dôležité oblečenie</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[10px] font-bold text-earth-600 uppercase tracking-[0.2em] mb-1">⛪ Svätá omša</h4>
-                                    <div class="flex items-center gap-2 text-forest-400 italic text-sm mt-1 bg-forest-50 px-3 py-2 rounded-xl border border-forest-100">
-                                        <span>⏳</span> Bude dostupné počas tábora
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                });
-            </script>
+            <!-- Info box -->
+            <div class="info-box reveal mb-10">
+                <h2 class="text-base font-bold text-earth-700 mb-3 flex items-center gap-2">
+                    <span>ℹ️</span> Informácie pre rodičov
+                </h2>
+                <p class="text-forest-800 text-sm mb-4 leading-relaxed">
+                    Prosím, nezabudnite deťom <strong>každý deň pribaliť</strong> do batôžka základnú výbavu:
+                </p>
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="equip-chip">🧢 Pokrývka hlavy</span>
+                    <span class="equip-chip">🍼 Fľaša s vodou</span>
+                    <span class="equip-chip">🍎 Malá desiata</span>
+                </div>
+                <div
+                    class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-forest-800 text-cream-100 rounded-xl px-4 py-3.5">
+                    <div>
+                        <p class="font-bold text-sm text-earth-300 flex items-center gap-1.5">🤝 Hľadáme pomoc s obedmi!
+                        </p>
+                        <p class="text-xs text-cream-300 mt-0.5 leading-relaxed">Mamičky ochotné pomôcť s chystaním
+                            obedov, ozvite sa Michalovi.</p>
+                    </div>
+                    <a href="tel:+421950487454"
+                        class="btn-press shrink-0 bg-earth-500 hover:bg-earth-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow whitespace-nowrap">
+                        📞 +421 950 487 454
+                    </a>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline-wrap" id="timeline"></div>
 
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="bg-forest-900 text-forest-200 py-10 sm:py-16 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-64 h-64 bg-forest-800/30 rounded-full -translate-x-1/2 -translate-y-1/2">
         </div>
         <div class="absolute bottom-0 right-0 w-48 h-48 bg-earth-600/10 rounded-full translate-x-1/3 translate-y-1/3">
         </div>
-    
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative reveal">
             <div class="flex flex-col items-center gap-8">
-                <a href="https://kaplna.domka.sk/" class="flex flex-col items-center gap-3 sm:gap-4 group">
+                <a href="https://kaplna.domka.sk/" class="flex flex-col items-center gap-3 group">
                     <div
-                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 ring-earth-500/30 group-hover:ring-earth-500/50 transition-all shadow-lg">
+                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 ring-earth-500/30 group-hover:ring-earth-500/60 group-hover:scale-105 transition-all duration-300 shadow-lg">
                         <img src="images/logo_kaplna.png" alt="Kaplná domka logo" class="w-full h-full object-cover">
                     </div>
-                    <span class="text-xl sm:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors">Domka Kaplna
-                    </span>
+                    <span
+                        class="text-xl sm:text-2xl font-bold text-cream-100 group-hover:text-earth-300 transition-colors duration-300">Domka
+                        Kaplna</span>
                 </a>
-    
                 <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
                     <a href="index.html#kontakt"
-                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium text-base sm:text-lg">Kontakt</a>
+                        class="text-cream-200 hover:text-earth-300 transition-colors font-medium">Kontakt</a>
                     <div class="h-6 w-px bg-forest-700 hidden sm:block"></div>
                     <div class="flex gap-4">
                         <a href="https://www.facebook.com/kaplna.mladych"
-                            class="w-10 h-10 sm:w-12 sm:h-12 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:shadow-lg"
+                            class="social-btn w-11 h-11 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center"
                             aria-label="Facebook">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -195,7 +697,7 @@
                             </svg>
                         </a>
                         <a href="https://www.instagram.com/kaplna_mladych/"
-                            class="w-10 h-10 sm:w-12 sm:h-12 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:shadow-lg"
+                            class="social-btn w-11 h-11 bg-forest-800 hover:bg-earth-600 rounded-full flex items-center justify-center"
                             aria-label="Instagram">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -205,70 +707,146 @@
                     </div>
                 </div>
             </div>
-    
-            <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-forest-700/50 text-center">
-                <p class="text-forest-400 text-xs sm:text-sm">
-                    © 2026 Pridedínsky tábor. Všetky práva vyhradené.
-                </p>
+            <div class="mt-10 pt-6 border-t border-forest-700/50 text-center">
+                <p class="text-forest-400 text-xs sm:text-sm">© 2026 Pridedínsky tábor. Všetky práva vyhradené.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+        // ── Data ──
+        const programData = [
+            { den: "Pondelok", datum: "6.7.", stretnutie: "8:00 Kaplna ihrisko", ukoncenie: "16:45 Kaplna ihrisko", omsa: "11:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Štandardné športové oblečenie do prírody a pokrývka hlavy.", popis: "Začneme o 8:00 registráciou detí, ktoré sa rozdelia do táborových skupiniek a spoznajú svojich animátorov. <strong>Upozornenie:</strong> Ak ste kartičku poistenca poslali vopred e-mailom, nemusíte ju v prvý deň fyzicky nosiť. Po svätej omši nasleduje spoločný obed a poobedné zoznamovacie hry." },
+            { den: "Utorok", datum: "7.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Pohodlné oblečenie na hry vonku.", popis: "Stretávame sa priamo na svätej omši v Kaplne. <strong>Kriticky dôležité:</strong> Nezabudnite dnes priniesť <strong>VYPLNENÝ SÚHLAS na výlet</strong>. Bez tohto podpísaného dokumentu sa dieťa nebude môcť štvrtkového výletu zúčastniť! Deň zakončíme plný hier na kaplnskom ihrisku." },
+            { den: "Streda", datum: "8.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Športový úbor vhodný na behanie a futbalové ihrisko.", popis: "Začíname svätou omšou o 8:00. Celý dnešný deň bude v znamení pohybu, tímových súťaží a veľkých športových hier na kaplnskom futbalovom ihrisku." },
+            { den: "Štvrtok", datum: "9.7.", stretnutie: "7:45 kostol Báhoň", ukoncenie: "17:30 ihrisko Báhoň", omsa: "8:00 kostol Báhoň", obed: "🎒 Vlastný obed / lepeňák z domu", oblecenie: "Turistická a pevná obuv, batoh, pršiplášť.", popis: "<strong>Veľký výletný deň!</strong> Stretávame sa v Báhoni. Po omši sa presúvame na vlak smer <strong>Svätý Jur – hrad Biely Kameň</strong>.<br>• <i>Vlak tam:</i> Os 3012 (Báhoň 9:48 → Svätý Jur 10:05)<br>• <i>Vlak späť:</i> skupinky 1–5 Os 3023 (15:51), skupinky 6–10 Os 3025 (16:51)<br><strong>Dôležité:</strong> Deti s bezplatnou prepravou musia mať <u>ORIGINÁL kartičky na vlak</u>." },
+            { den: "Piatok", datum: "10.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "💦 KOMPLETNÉ NÁHRADNÉ OBLEČENIE a uterák — povinne!", popis: "Po rannej svätej omši nás čaká parádne osvieženie. Celé poobedie odpálime obľúbené a bláznivé <strong>VODNÉ HRY</strong>. Je absolútne nevyhnutné, aby mali deti so sebou kompletnú sadu vecí na prezlečenie vrátane spodnej bielizne a obuvi, ktorá môže zmoknúť." },
+            { den: "Sobota", datum: "11.7.", stretnutie: "7:45 kostol Báhoň", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Báhoň", obed: "12:00 KD Kaplna", oblecenie: "🎨 NÁHRADNÉ OBLEČENIE, ktoré sa môže natrvalo zašpiniť od farieb.", popis: "Stretneme sa v Báhoni na svätej omši a odtiaľ sa budeme zážitkovou trasou plnou stanovíšť presúvať do Kaplny. Dnes nás čakajú legendárne táborové <strong>FARBY</strong> — staré tričká sú nutnosťou!" },
+            { den: "Nedeľa", datum: "12.7.", stretnutie: "10:45 kostol Kaplna", ukoncenie: "16:00 (Koniec tábora)", omsa: "11:00 Kaplna", obed: "🍲 Spoločný táborový guláš", oblecenie: "Pohodové / slávnostné na záver tábora.", popis: "<strong>Veľké finále pre celé rodiny!</strong> Slávnostná svätá omša o 11:00, potom posledné bodované súťaže, vyhodnotenie, odovzdávanie cien a spoločný program. Pre všetkých bude guláš a kávička. Ak máte chuť napiecť koláčik, vopred ďakujeme! Oficiálna zodpovednosť animátorov za deti končí o 16:00." }
+        ];
+
+        // ── Build timeline ──
+        const tl = document.getElementById('timeline');
+        programData.forEach((d, i) => {
+            const isSunday = i === 6;
+            const item = document.createElement('div');
+            item.className = 'tl-item';
+
+            item.innerHTML = `
+            <div class="tl-dot${isSunday ? ' sunday' : ''}"></div>
+            <div class="tl-day-label">${d.den}</div>
+            <div class="tl-card${isSunday ? ' sunday-card' : ''}">
+                <div class="tl-header">
+                    <div class="tl-header-left">
+                        <span class="tl-num${isSunday ? ' sunday' : ''}">${i + 1}</span>
+                        <div>
+                            <div class="tl-title">${d.den}</div>
+                            <div class="tl-date">${d.datum}</div>
+                        </div>
+                    </div>
+                    <span class="tl-badge">PT2026</span>
+                </div>
+                <div class="tl-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <div>
+                                <div class="info-label">Miesto stretnutia</div>
+                                <div class="info-value">${d.stretnutie}</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">⛪</span>
+                            <div>
+                                <div class="info-label">Svätá omša</div>
+                                <div class="info-value">${d.omsa}</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🏡</span>
+                            <div>
+                                <div class="info-label">Koniec dňa</div>
+                                <div class="info-value">${d.ukoncenie}</div>
+                            </div>
+                        </div>
+                        <div class="info-item info-item-em">
+                            <span class="info-icon">🍽️</span>
+                            <div>
+                                <div class="info-label">Obed</div>
+                                <div class="info-value">${d.obed}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-item info-item-clothing">
+                        <span class="info-icon">👕</span>
+                        <div>
+                            <div class="info-label">Potrebné oblečenie</div>
+                            <div class="info-value">${d.oblecenie}</div>
+                        </div>
+                    </div>
+                    <button class="tl-toggle" data-id="${i}">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        Detaily programu
+                    </button>
+                    <div class="tl-popis-wrap" id="popis-${i}">
+                        <p class="tl-popis">${d.popis}</p>
+                    </div>
+                </div>
+            </div>`;
+            tl.appendChild(item);
+        });
+
+        // ── Toggle expand ──
+        document.querySelectorAll('.tl-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const wrap = document.getElementById('popis-' + id);
+                const isOpen = wrap.classList.contains('open');
+                wrap.classList.toggle('open', !isOpen);
+                btn.classList.toggle('open', !isOpen);
+            });
+        });
+
+        // ── Scroll progress ──
+        window.addEventListener('scroll', () => {
+            const total = document.documentElement.scrollHeight - window.innerHeight;
+            document.getElementById('progress-bar').style.width = (window.scrollY / total * 100) + '%';
+        });
+
+        // ── Back to top ──
+        const btt = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400));
+        btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ── Nav scroll ──
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('shadow-xl', window.scrollY > 50);
+            nav.classList.toggle('bg-forest-900', window.scrollY > 50);
+            nav.classList.toggle('bg-forest-800/95', window.scrollY <= 50);
+        });
+
+        // ── Mobile menu ──
+        const mBtn = document.getElementById('mobile-menu-btn');
+        const mMenu = document.getElementById('mobile-menu');
+        let menuOpen = false;
+        mBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mMenu.classList.toggle('open', menuOpen);
+            mBtn.classList.toggle('ham-open', menuOpen);
+        });
+        mMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            menuOpen = false; mMenu.classList.remove('open'); mBtn.classList.remove('ham-open');
+        }));
+
+        // ── Intersection observer ──
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+        }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+        document.querySelectorAll('.tl-item, .reveal').forEach(el => io.observe(el));
+    </script>
 </body>
-<script>
-    // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        let isMenuOpen = false;
-
-        mobileMenuBtn.addEventListener('click', function () {
-            isMenuOpen = !isMenuOpen;
-            mobileMenu.classList.toggle('hidden');
-
-            if (isMenuOpen) {
-                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-            } else {
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-            }
-        });
-
-        // Close mobile menu when clicking a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                mobileMenu.classList.add('hidden');
-                isMenuOpen = false;
-                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-            });
-        });
-
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Add scroll effect to navbar
-        window.addEventListener('scroll', function () {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('shadow-xl');
-            }
-        });
-</script>
 
 </html>
