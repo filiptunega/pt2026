@@ -439,6 +439,167 @@
             padding-top: 0.75rem;
         }
 
+        /* Train schedule box */
+        .train-box {
+            background: #f6f7f4;
+            border: 1px solid #e3e7de;
+            border-radius: 0.9rem;
+            padding: 0.9rem 1rem;
+            margin-top: 0.85rem;
+        }
+
+        .train-box-title {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #4c5f43;
+            margin-bottom: 0.7rem;
+        }
+
+        .train-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.55rem 0;
+            border-top: 1px dashed #d8ded1;
+        }
+
+        .train-row:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .train-tag {
+            flex-shrink: 0;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #fff;
+            background: #627856;
+            border-radius: 99px;
+            padding: 0.28rem 0.6rem;
+            white-space: nowrap;
+            margin-top: 0.35rem;
+        }
+
+        .train-tag.back {
+            background: #a5663e;
+        }
+
+        .train-route {
+            display: flex;
+            align-items: baseline;
+            gap: 0.35rem;
+            flex: 1;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+        }
+
+        .train-route .train-time {
+            font-weight: 800;
+            color: #1e3a1e;
+        }
+
+        .train-route .train-place {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #627856;
+        }
+
+        .train-route .train-arrow {
+            color: #a3b296;
+            font-weight: 600;
+            margin: 0 0.1rem;
+        }
+
+        .train-num {
+            flex-shrink: 0;
+            font-size: 0.64rem;
+            font-weight: 700;
+            color: #4c5f43;
+            background: #fff;
+            border: 1px solid #d8ded1;
+            border-radius: 99px;
+            padding: 0.2rem 0.55rem;
+            white-space: nowrap;
+        }
+
+        .train-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+        }
+
+        .train-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #3d4b37;
+            background: #fff;
+            border: 1px solid #d8ded1;
+            border-radius: 0.6rem;
+            padding: 0.4rem 0.65rem;
+        }
+
+        .train-group .train-time {
+            font-weight: 800;
+            color: #1e3a1e;
+            margin-right: 0.35rem;
+        }
+
+        /* Important note / alert box */
+        .alert-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.55rem;
+            background: #faf6f1;
+            border: 1px solid #e1ccb0;
+            border-radius: 0.75rem;
+            padding: 0.65rem 0.85rem;
+            margin-top: 0.7rem;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #704231;
+            line-height: 1.5;
+        }
+
+        .alert-box .alert-icon {
+            flex-shrink: 0;
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        /* Friendly info / tip note (green tone, for reassuring info) */
+        .tip-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.55rem;
+            background: #f6f7f4;
+            border: 1px solid #c7d0be;
+            border-radius: 0.75rem;
+            padding: 0.65rem 0.85rem;
+            margin-top: 0.7rem;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #3d4b37;
+            line-height: 1.5;
+        }
+
+        .tip-box .tip-icon {
+            flex-shrink: 0;
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
         /* Expand/collapse toggle */
         .tl-toggle {
             background: none;
@@ -562,7 +723,6 @@
         </svg>
     </button>
 
-    <!-- Nav -->
     <nav
         class="fixed top-0 left-0 right-0 z-50 bg-forest-800/95 backdrop-blur-sm shadow-lg transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -616,7 +776,6 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <header class="hero-mini pt-32 pb-14 md:pt-40 md:pb-20 text-center overflow-hidden">
         <div class="max-w-3xl mx-auto px-4">
             <p class="hero-sub text-earth-300 text-xs font-bold uppercase tracking-widest mb-3">PT2026 · 6.–12. júla</p>
@@ -632,7 +791,6 @@
     <section class="py-14 md:py-20">
         <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
-            <!-- Info box -->
             <div class="info-box reveal mb-10">
                 <h2 class="text-base font-bold text-earth-700 mb-3 flex items-center gap-2">
                     <span>ℹ️</span> Informácie pre rodičov
@@ -660,13 +818,11 @@
                 </div>
             </div>
 
-            <!-- Timeline -->
             <div class="timeline-wrap" id="timeline"></div>
 
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-forest-900 text-forest-200 py-10 sm:py-16 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-64 h-64 bg-forest-800/30 rounded-full -translate-x-1/2 -translate-y-1/2">
         </div>
@@ -718,13 +874,44 @@
 
         // ── Data ──
         const programData = [
-            { den: "Pondelok", datum: "6.7.", stretnutie: "8:00 Kaplna ihrisko", ukoncenie: "16:45 Kaplna ihrisko", omsa: "11:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Štandardné športové oblečenie do prírody a pokrývka hlavy.", popis: "Začneme o 8:00 registráciou detí, ktoré sa rozdelia do táborových skupiniek a spoznajú svojich animátorov. <strong>Upozornenie:</strong> Ak ste kartičku poistenca poslali vopred e-mailom, nemusíte ju v prvý deň fyzicky nosiť. Po svätej omši nasleduje spoločný obed a poobedné zoznamovacie hry." },
-            { den: "Utorok", datum: "7.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Pohodlné oblečenie na hry vonku.", popis: "Stretávame sa priamo na svätej omši v Kaplne. <strong>Kriticky dôležité:</strong> Nezabudnite dnes priniesť <strong>VYPLNENÝ SÚHLAS na výlet</strong>. Bez tohto podpísaného dokumentu sa dieťa nebude môcť štvrtkového výletu zúčastniť! Deň zakončíme plný hier na kaplnskom ihrisku." },
+            {
+                den: "Pondelok", datum: "6.7.", stretnutie: "8:00 Kaplna ihrisko", ukoncenie: "16:45 Kaplna ihrisko", omsa: "11:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Štandardné športové oblečenie do prírody a pokrývka hlavy.",
+                popis: "Začneme o 8:00 registráciou detí, ktoré sa rozdelia do táborových skupiniek a spoznajú svojich animátorov. Po svätej omši nasleduje spoločný obed a poobedné zoznamovacie hry.",
+                info: "Ak ste kartičku poistenca poslali vopred e-mailom, nemusíte ju v prvý deň fyzicky nosiť."
+            },
+            {
+                den: "Utorok", datum: "7.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Pohodlné oblečenie na hry vonku.",
+                popis: "Stretávame sa priamo na svätej omši v Kaplne. Deň zakončíme plný hier na kaplnskom ihrisku.",
+                dolezite: "Nezabudnite dnes priniesť <strong>VYPLNENÝ SÚHLAS na výlet</strong>. Bez tohto podpísaného dokumentu sa dieťa nebude môcť štvrtkového výletu zúčastniť!"
+            },
             { den: "Streda", datum: "8.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "Športový úbor vhodný na behanie a futbalové ihrisko.", popis: "Začíname svätou omšou o 8:00. Celý dnešný deň bude v znamení pohybu, tímových súťaží a veľkých športových hier na kaplnskom futbalovom ihrisku." },
-            { den: "Štvrtok", datum: "9.7.", stretnutie: "7:45 kostol Báhoň", ukoncenie: "17:30 ihrisko Báhoň", omsa: "8:00 kostol Báhoň", obed: "🎒 Vlastný obed / lepeňák z domu", oblecenie: "Turistická a pevná obuv, batoh, pršiplášť.", popis: "<strong>Veľký výletný deň!</strong> Stretávame sa v Báhoni. Po omši sa presúvame na vlak smer <strong>Svätý Jur – hrad Biely Kameň</strong>.<br>• <i>Vlak tam:</i> Os 3012 (Báhoň 9:48 → Svätý Jur 10:05)<br>• <i>Vlak späť:</i> skupinky 1–5 Os 3023 (15:51), skupinky 6–10 Os 3025 (16:51)<br><strong>Dôležité:</strong> Deti s bezplatnou prepravou musia mať <u>ORIGINÁL kartičky na vlak</u>." },
-            { den: "Piatok", datum: "10.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "💦 KOMPLETNÉ NÁHRADNÉ OBLEČENIE a uterák — povinne!", popis: "Po rannej svätej omši nás čaká parádne osvieženie. Celé poobedie odpálime obľúbené a bláznivé <strong>VODNÉ HRY</strong>. Je absolútne nevyhnutné, aby mali deti so sebou kompletnú sadu vecí na prezlečenie vrátane spodnej bielizne a obuvi, ktorá môže zmoknúť." },
-            { den: "Sobota", datum: "11.7.", stretnutie: "7:45 kostol Báhoň", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Báhoň", obed: "12:00 KD Kaplna", oblecenie: "🎨 NÁHRADNÉ OBLEČENIE, ktoré sa môže natrvalo zašpiniť od farieb.", popis: "Stretneme sa v Báhoni na svätej omši a odtiaľ sa budeme zážitkovou trasou plnou stanovíšť presúvať do Kaplny. Dnes nás čakajú legendárne táborové <strong>FARBY</strong> — staré tričká sú nutnosťou!" },
-            { den: "Nedeľa", datum: "12.7.", stretnutie: "10:45 kostol Kaplna", ukoncenie: "16:00 (Koniec tábora)", omsa: "11:00 Kaplna", obed: "🍲 Spoločný táborový guláš", oblecenie: "Pohodové / slávnostné na záver tábora.", popis: "<strong>Veľké finále pre celé rodiny!</strong> Slávnostná svätá omša o 11:00, potom posledné bodované súťaže, vyhodnotenie, odovzdávanie cien a spoločný program. Pre všetkých bude guláš a kávička. Ak máte chuť napiecť koláčik, vopred ďakujeme! Oficiálna zodpovednosť animátorov za deti končí o 16:00." }
+            {
+                den: "Štvrtok", datum: "9.7.", stretnutie: "7:45 kostol Báhoň", ukoncenie: "17:30 ihrisko Báhoň", omsa: "8:00 kostol Báhoň", obed: "🎒 Vlastný obed / lepeňák z domu", oblecenie: "Turistická a pevná obuv, batoh, pršiplášť.",
+                popis: "<strong>Veľký výletný deň!</strong> Stretávame sa v Báhoni. Po svätej omši sa spoločne presúvame na vlak smer <strong>Svätý Jur – hrad Biely Kameň</strong>.",
+                vlaky: {
+                    tam: { spoj: "Os 3012", cas1: "9:48", miesto1: "Báhoň", cas2: "10:05", miesto2: "Svätý Jur" },
+                    spat: [
+                        { skupinky: "Skupinky 1–5", spoj: "Os 3023", cas: "15:51" },
+                        { skupinky: "Skupinky 6–10", spoj: "Os 3025", cas: "16:51" }
+                    ]
+                },
+                dolezite: "Deti s bezplatnou prepravou musia mať pri sebe <strong>ORIGINÁL kartičky na vlak</strong> — kópia ani fotka nestačí."
+            },
+            {
+                den: "Piatok", datum: "10.7.", stretnutie: "7:45 kostol Kaplna", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Kaplna", obed: "12:00 KD Kaplna", oblecenie: "💦 KOMPLETNÉ NÁHRADNÉ OBLEČENIE a uterák — povinne!",
+                popis: "Po rannej svätej omši nás čaká parádne osvieženie. Celé poobedie odpálime obľúbené a bláznivé <strong>VODNÉ HRY</strong>.",
+                dolezite: "Je absolútne nevyhnutné, aby mali deti so sebou kompletnú sadu vecí na prezlečenie vrátane spodnej bielizne a obuvi, ktorá môže zmoknúť."
+            },
+            {
+                den: "Sobota", datum: "11.7.", stretnutie: "7:45 kostol Báhoň", ukoncenie: "16:45 Kaplna ihrisko", omsa: "8:00 kostol Báhoň", obed: "12:00 KD Kaplna", oblecenie: "🎨 NÁHRADNÉ OBLEČENIE, ktoré sa môže natrvalo zašpiniť od farieb.",
+                popis: "Stretneme sa v Báhoni na svätej omši a odtiaľ sa budeme zážitkovou trasou plnou stanovíšť presúvať do Kaplny. Dnes nás čakajú legendárne táborové <strong>FARBY</strong>!",
+                info: "Staré tričká, ktoré sa môžu natrvalo zašpiniť, sú dnes nutnosťou."
+            },
+            {
+                den: "Nedeľa", datum: "12.7.", stretnutie: "10:45 kostol Kaplna", ukoncenie: "16:00 (Koniec tábora)", omsa: "11:00 Kaplna", obed: "🍲 Spoločný táborový guláš", oblecenie: "Pohodové / slávnostné na záver tábora.",
+                popis: "<strong>Veľké finále pre celé rodiny!</strong> Slávnostná svätá omša o 11:00, potom posledné bodované súťaže, vyhodnotenie, odovzdávanie cien a spoločný program. Pre všetkých bude guláš a kávička.",
+                info: "Ak máte chuť napiecť koláčik, vopred ďakujeme! Oficiálna zodpovednosť animátorov za deti končí o 16:00."
+            }
         ];
 
         // ── Build timeline ──
@@ -792,6 +979,52 @@
                     </button>
                     <div class="tl-popis-wrap" id="popis-${i}">
                         <p class="tl-popis">${d.popis}</p>
+                        ${d.vlaky ? `
+                        <div class="train-box">
+                            <div class="train-box-title">🚆 Vlakové spojenie</div>
+                            <div class="train-row">
+                                <span class="train-tag">Tam</span>
+                                <div class="train-groups">
+                                    <div class="train-group">
+                                        <div class="train-route">
+                                            <span class="train-time">${d.vlaky.tam.cas1}</span>
+                                            <span class="train-place">${d.vlaky.tam.miesto1}</span>
+                                            <span class="train-arrow">→</span>
+                                            <span class="train-time">${d.vlaky.tam.cas2}</span>
+                                            <span class="train-place">${d.vlaky.tam.miesto2}</span>
+                                            <span class="text-[11px] text-forest-400 font-medium ml-1.5">(Všetky skupinky)</span>
+                                        </div>
+                                        <span class="train-num">${d.vlaky.tam.spoj}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="train-row">
+                                <span class="train-tag back">Späť</span>
+                                <div class="train-groups">
+                                    ${d.vlaky.spat.map(g => `
+                                    <div class="train-group">
+                                        <div class="train-route">
+                                            <span class="train-time">${g.cas}</span>
+                                            <span class="train-place">${d.vlaky.tam.miesto2}</span>
+                                            <span class="train-arrow">→</span>
+                                            <span class="train-place">${d.vlaky.tam.miesto1}</span>
+                                            <span class="text-[11px] text-earth-600 font-bold ml-1.5">(${g.skupinky})</span>
+                                        </div>
+                                        <span class="train-num">${g.spoj}</span>
+                                    </div>`).join('')}
+                                </div>
+                            </div>
+                        </div>` : ''}
+                        ${d.dolezite ? `
+                        <div class="alert-box">
+                            <span class="alert-icon">⚠️</span>
+                            <span>${d.dolezite}</span>
+                        </div>` : ''}
+                        ${d.info ? `
+                        <div class="tip-box">
+                            <span class="tip-icon">ℹ️</span>
+                            <span>${d.info}</span>
+                        </div>` : ''}
                     </div>
                 </div>
             </div>`;
